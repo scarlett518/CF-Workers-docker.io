@@ -181,7 +181,7 @@ async function helpPage() {
 	<body>
 		<div class="container">
 			<center><h1>镜像加速说明</h1></center>
-   			<center><h4>个人自建，请勿随意分享导致资源滥用无法使用</h4></center>
+			<center><h4>个人自建，请勿随意分享，导致资源滥用无法使用</h4></center>
 			<h3>为了加速镜像拉取，你可以使用以下命令设置 registry mirror:</h3>
 			<pre><code>
 	sudo mkdir -p /etc/docker
@@ -199,6 +199,16 @@ async function helpPage() {
 			<h3>加速拉取镜像命令</h3>
 			<pre><code>
 	docker pull {{WORKERS_HOST}}/library/alpine:latest</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
+			<center>
+				<div class="github-badge">
+					<span class="badge-subject">PV</span>
+					<span class="badge-value bg-blue" id="page_pv"></span>
+				</div> |
+				<div class="github-badge">
+					<span class="badge-subject">UV</span>
+					<span class="badge-value bg-green" id="page_uv"></span>
+				</div>
+			</center>
 		</div>
 		<script>
 			function copyCode(button) {
@@ -220,6 +230,7 @@ async function helpPage() {
 	`
 	return text.replace(/{{WORKERS_HOST}}/g, workers_url);
 }
+
 
 export default {
 	async fetch(request, env, ctx) {
