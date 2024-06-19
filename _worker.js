@@ -176,11 +176,44 @@ async function helpPage() {
 			pre:hover .copy-button {
 				opacity: 1;
 			}
+			.github-badge {
+				display: inline-block;
+				padding: 5px 10px;
+				margin: 5px;
+				border-radius: 5px;
+				background: #f5f5f5;
+				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+			}
+			.badge-subject {
+				font-weight: bold;
+			}
+			.badge-value {
+				padding: 2px 5px;
+				border-radius: 3px;
+			}
+			.badge-value.bg-blue {
+				background-color: #007aff;
+				color: white;
+			}
+			.badge-value.bg-green {
+				background-color: #28a745;
+				color: white;
+			}
 		</style>
 	</head>
 	<body>
 		<div class="container">
 			<center><h1>镜像加速说明</h1></center>
+			<center>
+				<div class="github-badge">
+					<span class="badge-subject">PV</span>
+					<span class="badge-value bg-blue" id="page_pv"></span>
+				</div> |
+				<div class="github-badge">
+					<span class="badge-subject">UV</span>
+					<span class="badge-value bg-green" id="page_uv"></span>
+				</div>
+			</center>
 			<center><h4>个人自建，请勿随意分享，导致资源滥用无法使用</h4></center>
 			<h3>为了加速镜像拉取，你可以使用以下命令设置 registry mirror:</h3>
 			<pre><code>
@@ -199,16 +232,6 @@ async function helpPage() {
 			<h3>加速拉取镜像命令</h3>
 			<pre><code>
 	docker pull {{WORKERS_HOST}}/library/alpine:latest</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
-			<center>
-				<div class="github-badge">
-					<span class="badge-subject">PV</span>
-					<span class="badge-value bg-blue" id="page_pv"></span>
-				</div> |
-				<div class="github-badge">
-					<span class="badge-subject">UV</span>
-					<span class="badge-value bg-green" id="page_uv"></span>
-				</div>
-			</center>
 		</div>
 		<script>
 			function copyCode(button) {
@@ -230,6 +253,7 @@ async function helpPage() {
 	`
 	return text.replace(/{{WORKERS_HOST}}/g, workers_url);
 }
+
 
 
 export default {
