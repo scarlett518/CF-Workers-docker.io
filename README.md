@@ -37,7 +37,8 @@ sudo systemctl restart docker
 |--|--|--|--|
 | URL302 | https://t.me/CMLiussss |❌| 主页302跳转 |
 | URL | https://www.baidu.com/ |❌| 主页伪装(设为`nginx`则伪装为nginx默认页面) |
-
+| HOME | 你的域名 |❌|help页面进行加速地址替换|
+| URL | help |❌|将网页显示为帮助页面|
 
 # 第三方Docker官方镜像服务
 
