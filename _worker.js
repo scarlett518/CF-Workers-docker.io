@@ -312,6 +312,10 @@ export default {
                 }
             };
             let token_url = auth_url + url.pathname + url.search;
+
+            // 日志输出 token 请求的 URL
+            console.log(`Token URL: ${token_url}`);
+
             return fetch(new Request(token_url, request), token_parameter);
         }
 
