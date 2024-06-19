@@ -176,53 +176,12 @@ async function helpPage() {
 			pre:hover .copy-button {
 				opacity: 1;
 			}
-			.github-badge {
-				display: inline-block;
-				padding: 2px 10px;
-				margin: 5px;
-				border-radius: 3px;
-				background: #f5f5f5;
-				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-				font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-				font-size: 0.875em;
-				line-height: 1.6;
-				color: #333;
-			}
-			.github-badge .badge-subject {
-				background: #555;
-				color: white;
-				padding: 2px 5px;
-				border-radius: 3px 0 0 3px;
-				margin-right: 2px;
-			}
-			.github-badge .badge-value {
-				padding: 2px 5px;
-				border-radius: 0 3px 3px 0;
-			}
-			.github-badge .badge-value.bg-blue {
-				background-color: #007aff;
-				color: white;
-			}
-			.github-badge .badge-value.bg-green {
-				background-color: #28a745;
-				color: white;
-			}
 		</style>
 	</head>
 	<body>
 		<div class="container">
 			<center><h1>镜像加速说明</h1></center>
-			<center>
-				<div class="github-badge">
-					<span class="badge-subject">PV</span>
-					<span class="badge-value bg-blue" id="page_pv"></span>
-				</div>
-				<div class="github-badge">
-					<span class="badge-subject">UV</span>
-					<span class="badge-value bg-green" id="page_uv"></span>
-				</div>
-			</center>
-			<center><h4>个人自建，请勿随意分享，导致资源滥用无法使用</h4></center>
+   			<center><h4>个人自建，请勿随意分享，导致资源滥用无法使用</h4></center>
 			<h3>为了加速镜像拉取，你可以使用以下命令设置 registry mirror:</h3>
 			<pre><code>
 	sudo mkdir -p /etc/docker
@@ -261,8 +220,6 @@ async function helpPage() {
 	`
 	return text.replace(/{{WORKERS_HOST}}/g, workers_url);
 }
-
-
 
 
 export default {
