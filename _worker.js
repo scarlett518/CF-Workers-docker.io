@@ -178,24 +178,32 @@ async function helpPage() {
 			}
 			.github-badge {
 				display: inline-block;
-				padding: 5px 10px;
+				padding: 2px 10px;
 				margin: 5px;
-				border-radius: 5px;
+				border-radius: 3px;
 				background: #f5f5f5;
 				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+				font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+				font-size: 0.875em;
+				line-height: 1.6;
+				color: #333;
 			}
-			.badge-subject {
-				font-weight: bold;
-			}
-			.badge-value {
+			.github-badge .badge-subject {
+				background: #555;
+				color: white;
 				padding: 2px 5px;
-				border-radius: 3px;
+				border-radius: 3px 0 0 3px;
+				margin-right: 2px;
 			}
-			.badge-value.bg-blue {
+			.github-badge .badge-value {
+				padding: 2px 5px;
+				border-radius: 0 3px 3px 0;
+			}
+			.github-badge .badge-value.bg-blue {
 				background-color: #007aff;
 				color: white;
 			}
-			.badge-value.bg-green {
+			.github-badge .badge-value.bg-green {
 				background-color: #28a745;
 				color: white;
 			}
@@ -208,7 +216,7 @@ async function helpPage() {
 				<div class="github-badge">
 					<span class="badge-subject">PV</span>
 					<span class="badge-value bg-blue" id="page_pv"></span>
-				</div> |
+				</div>
 				<div class="github-badge">
 					<span class="badge-subject">UV</span>
 					<span class="badge-value bg-green" id="page_uv"></span>
@@ -253,6 +261,7 @@ async function helpPage() {
 	`
 	return text.replace(/{{WORKERS_HOST}}/g, workers_url);
 }
+
 
 
 
