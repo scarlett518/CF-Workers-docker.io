@@ -379,70 +379,70 @@ export default {
  * @param {string} pathname 请求路径
  */
 function httpHandler(req, pathname) {
-	const reqHdrRaw = req.headers
+    const reqHdrRaw = req.headers;
 
-	// 处理预检请求
-	if (req.method === 'OPTIONS' &&
-		reqHdrRaw.has('access-control-request-headers')
-	) {
-		return new Response(null, PREFLIGHT_INIT)
-	}
+    // 处理预检请求
+    if (req.method === 'OPTIONS' &&
+        reqHdrRaw.has('access-control-request-headers')
+    ) {
+        return new Response(null, PREFLIGHT_INIT);
+    }
 
-	let rawLen = ''
+    let rawLen = '';
 
-	const reqHdrNew = new Headers(reqHdrRaw)
+    const reqHdrNew = new Headers(reqHdrRaw);
 
-	const refer = reqHdrNew.get('referer')
+    const refer = reqHdrNew.get('referer');
 
-	let urlStr = pathname
+    let urlStr = pathname;
 
-	const urlObj = newUrl(urlStr)
+    const urlObj = newUrl(urlStr);
 
-	/** @type {RequestInit} */
-	const reqInit = {
-		method: req.method,
-		headers: reqHdrNew,
-		redirect: 'follow',
-		body: req.body
-	}
-	return proxy(urlObj, reqInit, rawLen)
+    // 确保 URL 包含协议部分
+    if (!urlObj.protocol) {
+        urlObj.protocol = 'https:'; // 或者 'http:' 根据需要
+    }
+
+    /** @type {RequestInit} */
+    const reqInit = {
+        method: req.method,
+        headers: reqHdrNew,
+        redirect: 'follow',
+        body: req.body
+    };
+    return proxy(urlObj, reqInit, rawLen);
 }
 
-/**
- * 代理请求
- * @param {URL} urlObj URL对象
- * @param {RequestInit} reqInit 请求初始化对象
- * @param {string} rawLen 原始长度
- */
 async function proxy(urlObj, reqInit, rawLen) {
-	const res = await fetch(urlObj.href, reqInit)
-	const resHdrOld = res.headers
-	const resHdrNew = new Headers(resHdrOld)
+    const res = await fetch(urlObj.href, reqInit);
+    const resHdrOld = res.headers;
+    const resHdrNew = new Headers(resHdrOld);
 
-	// 验证长度
-	if (rawLen) {
-		const newLen = resHdrOld.get('content-length') || ''
-		const badLen = (rawLen !== newLen)
+    // 验证长度
+    if (rawLen) {
+        const newLen = resHdrOld.get('content-length') || '';
+        const badLen = (rawLen !== newLen);
 
-		if (badLen) {
-			return makeRes(res.body, 400, {
-				'--error': `bad len: ${newLen}, except: ${rawLen}`,
-				'access-control-expose-headers': '--error',
-			})
-		}
-	}
-	const status = res.status
-	resHdrNew.set('access-control-expose-headers', '*')
-	resHdrNew.set('access-control-allow-origin', '*')
-	resHdrNew.set('Cache-Control', 'max-age=1500')
+        if (badLen) {
+            return makeRes(res.body, 400, {
+                '--error': `bad len: ${newLen}, except: ${rawLen}`,
+                'access-control-expose-headers': '--error',
+            });
+        }
+    }
+    const status = res.status;
+    resHdrNew.set('access-control-expose-headers', '*');
+    resHdrNew.set('access-control-allow-origin', '*');
+    resHdrNew.set('Cache-Control', 'max-age=1500');
 
-	// 删除不必要的头
-	resHdrNew.delete('content-security-policy')
-	resHdrNew.delete('content-security-policy-report-only')
-	resHdrNew.delete('clear-site-data')
+    // 删除不必要的头
+    resHdrNew.delete('content-security-policy');
+    resHdrNew.delete('content-security-policy-report-only');
+    resHdrNew.delete('clear-site-data');
 
-	return new Response(res.body, {
-		status,
-		headers: resHdrNew
-	})
+    return new Response(res.body, {
+        status,
+        headers: resHdrNew
+    });
 }
+
