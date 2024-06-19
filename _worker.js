@@ -181,14 +181,6 @@ async function helpPage() {
 	<body>
 		<div class="container">
 			<center><h1>镜像加速说明</h1></center>
-   			<center><div class="github-badge">
-			<span class="badge-subject">PV</span>
-			<span class="badge-value bg-blue" id="page_pv"></span>
-			</div> |
-			<div class="github-badge">
-			<span class="badge-subject">UV</span>
-			<span class="badge-value bg-green" id="page_uv"></span>
-			</div></center>
    			<center><h4>个人自建，请勿随意分享，导致资源滥用无法使用</h4></center>
 			<h3>为了加速镜像拉取，你可以使用以下命令设置 registry mirror:</h3>
 			<pre><code>
