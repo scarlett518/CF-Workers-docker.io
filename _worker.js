@@ -9,7 +9,7 @@ let workers_url = 'https://你的域名'
 
 // 根据主机名选择对应的上游地址
 function routeByHosts(host) {
-		// 定义路由表
+	// 定义路由表
 	const routes = {
 		// 生产环境
 		"quay": "quay.io",
@@ -225,7 +225,7 @@ export default {
 		const getReqHeader = (key) => request.headers.get(key); // 获取请求头
 
 		let url = new URL(request.url); // 解析请求URL
-		workers_url = `https://${url.hostname}`;
+		workers_url = env.HOME || `https://${url.hostname}`; // 使用环境变量 HOME 或者默认值
 		const pathname = url.pathname;
 		const hostname = url.searchParams.get('hubhost') || url.hostname; 
 		const hostTop = hostname.split('.')[0];// 获取主机名的第一部分
