@@ -9,33 +9,28 @@ let workers_url = 'https://你的域名';
 
 // 根据主机名选择对应的上游地址
 function routeByHosts(host) {
-    // 定义路由表
     const routes = {
-        // 生产环境
         "quay": "quay.io",
         "gcr": "gcr.io",
         "k8s-gcr": "k8s.gcr.io",
         "k8s": "registry.k8s.io",
         "ghcr": "ghcr.io",
         "cloudsmith": "docker.cloudsmith.io",
-        
-        // 测试环境
         "test": "registry-1.docker.io",
     };
 
-    if (host in routes) return [ routes[host], false ];
-    else return [ hub_host, true ];
+    if (host in routes) return [routes[host], false];
+    else return [hub_host, true];
 }
 
 /** @type {RequestInit} */
 const PREFLIGHT_INIT = {
-    // 预检请求配置
     headers: new Headers({
-        'access-control-allow-origin': '*', // 允许所有来源
-        'access-control-allow-methods': 'GET,POST,PUT,PATCH,TRACE,DELETE,HEAD,OPTIONS', // 允许的HTTP方法
-        'access-control-max-age': '1728000', // 预检请求的缓存时间
+        'access-control-allow-origin': '*',
+        'access-control-allow-methods': 'GET,POST,PUT,PATCH,TRACE,DELETE,HEAD,OPTIONS',
+        'access-control-max-age': '1728000',
     }),
-}
+};
 
 /**
  * 构造响应
@@ -44,8 +39,8 @@ const PREFLIGHT_INIT = {
  * @param {Object<string, string>} headers 响应头
  */
 function makeRes(body, status = 200, headers = {}) {
-    headers['access-control-allow-origin'] = '*' // 允许所有来源
-    return new Response(body, { status, headers }) // 返回新构造的响应
+    headers['access-control-allow-origin'] = '*';
+    return new Response(body, { status, headers });
 }
 
 /**
@@ -54,17 +49,14 @@ function makeRes(body, status = 200, headers = {}) {
  */
 function newUrl(urlStr) {
     try {
-        return new URL(urlStr) // 尝试构造新的URL对象
+        return new URL(urlStr);
     } catch (err) {
-        return null // 构造失败返回null
+        return null;
     }
 }
 
 function isUUID(uuid) {
-    // 定义一个正则表达式来匹配 UUID 格式
     const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[4][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-    
-    // 使用正则表达式测试 UUID 字符串
     return uuidRegex.test(uuid);
 }
 
@@ -83,7 +75,7 @@ async function customPage(workersHost) {
                 color: #333;
                 margin: 0;
                 padding: 20px;
-                background-image: url('https://qninq.cn/api/bingimg/'); /* Replace with your image path */
+                background-image: url('https://qninq.cn/api/bingimg/');
                 background-size: cover;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -222,19 +214,19 @@ async function nginx() {
 
 export default {
     async fetch(request, env, ctx) {
-        const getReqHeader = (key) => request.headers.get(key); // 获取请求头
+        const getReqHeader = (key) => request.headers.get(key);
 
-        let url = new URL(request.url); // 解析请求URL
+        let url = new URL(request.url);
         workers_url = `https://${url.hostname}`;
         const pathname = url.pathname;
-        const hostname = url.searchParams.get('hubhost') || url.hostname; 
-        const hostTop = hostname.split('.')[0]; // 获取主机名的第一部分
+        const hostname = url.searchParams.get('hubhost') || url.hostname;
+        const hostTop = hostname.split('.')[0];
         const checkHost = routeByHosts(hostTop);
-        hub_host = checkHost[0]; // 获取上游地址
+        hub_host = checkHost[0];
         const fakePage = checkHost[1];
         console.log(`域名头部: ${hostTop}\n反代地址: ${hub_host}\n伪装首页: ${fakePage}`);
         const isUuid = isUUID(pathname.split('/')[1].split('/')[0]);
-        
+
         const conditions = [
             isUuid,
             pathname.includes('/_'),
@@ -246,51 +238,46 @@ export default {
             pathname.includes('/v2/feature-flags'),
             pathname.includes('search'),
             pathname.includes('source'),
-            pathname === '/',
             pathname === '/favicon.ico',
             pathname === '/auth/profile',
         ];
 
-        if (conditions.some(condition => condition) && (fakePage === true || hostTop == 'docker')) {
-            if (env.URL302){
+        if (pathname === '/' || conditions.some(condition => condition)) {
+            if (env.URL302) {
                 return Response.redirect(env.URL302, 302);
-            } else if (env.URL){
-                if (env.URL.toLowerCase() == 'nginx'){
-                    //首页改成一个nginx伪装页
+            } else if (env.URL) {
+                if (env.URL.toLowerCase() == 'nginx') {
                     return new Response(await nginx(), {
                         headers: {
                             'Content-Type': 'text/html; charset=UTF-8',
                         },
                     });
-                } else return fetch(new Request(env.URL, request));
+                } else {
+                    return fetch(new Request(env.URL, request));
+                }
             }
             
             const newUrl = new URL("https://registry.hub.docker.com" + pathname + url.search);
 
-            // 复制原始请求的标头
             const headers = new Headers(request.headers);
-
-            // 确保 Host 头部被替换为 hub.docker.com
             headers.set('Host', 'registry.hub.docker.com');
 
             const newRequest = new Request(newUrl, {
-                    method: request.method,
-                    headers: headers,
-                    body: request.method !== 'GET' && request.method !== 'HEAD' ? await request.blob() : null,
-                    redirect: 'follow'
+                method: request.method,
+                headers: headers,
+                body: request.method !== 'GET' && request.method !== 'HEAD' ? await request.blob() : null,
+                redirect: 'follow'
             });
 
             return fetch(newRequest);
         }
 
-        // 修改包含 %2F 和 %3A 的请求
         if (!/%2F/.test(url.search) && /%3A/.test(url.toString())) {
             let modifiedUrl = url.toString().replace(/%3A(?=.*?&)/, '%3Alibrary%2F');
             url = new URL(modifiedUrl);
             console.log(`handle_url: ${url}`);
         }
 
-        // 处理token请求
         if (url.pathname.includes('/token')) {
             let token_parameter = {
                 headers: {
@@ -307,16 +294,13 @@ export default {
             return fetch(new Request(token_url, request), token_parameter);
         }
 
-        // 修改 /v2/ 请求路径
         if (/^\/v2\/[^/]+\/[^/]+\/[^/]+$/.test(url.pathname) && !/^\/v2\/library/.test(url.pathname)) {
             url.pathname = url.pathname.replace(/\/v2\//, '/v2/library/');
             console.log(`modified_url: ${url.pathname}`);
         }
 
-        // 更改请求的主机名
         url.hostname = hub_host;
 
-        // 构造请求参数
         let parameter = {
             headers: {
                 'Host': hub_host,
@@ -327,15 +311,13 @@ export default {
                 'Connection': 'keep-alive',
                 'Cache-Control': 'max-age=0'
             },
-            cacheTtl: 3600 // 缓存时间
+            cacheTtl: 3600
         };
 
-        // 添加Authorization头
         if (request.headers.has("Authorization")) {
             parameter.headers.Authorization = getReqHeader("Authorization");
         }
 
-        // 发起请求并处理响应
         let original_response = await fetch(new Request(url, request), parameter);
         let original_response_clone = original_response.clone();
         let original_text = original_response_clone.body;
@@ -343,19 +325,16 @@ export default {
         let new_response_headers = new Headers(response_headers);
         let status = original_response.status;
 
-        // 修改 Www-Authenticate 头
         if (new_response_headers.get("Www-Authenticate")) {
             let auth = new_response_headers.get("Www-Authenticate");
             let re = new RegExp(auth_url, 'g');
             new_response_headers.set("Www-Authenticate", response_headers.get("Www-Authenticate").replace(re, workers_url));
         }
 
-        // 处理重定向
         if (new_response_headers.get("Location")) {
             return httpHandler(request, new_response_headers.get("Location"));
         }
 
-        // 返回修改后的响应
         let response = new Response(original_text, {
             status,
             headers: new_response_headers
@@ -372,7 +351,6 @@ export default {
 function httpHandler(req, pathname) {
     const reqHdrRaw = req.headers;
 
-    // 处理预检请求
     if (req.method === 'OPTIONS' &&
         reqHdrRaw.has('access-control-request-headers')
     ) {
@@ -410,7 +388,6 @@ async function proxy(urlObj, reqInit, rawLen) {
     const resHdrOld = res.headers;
     const resHdrNew = new Headers(resHdrOld);
 
-    // 验证长度
     if (rawLen) {
         const newLen = resHdrOld.get('content-length') || '';
         const badLen = (rawLen !== newLen);
@@ -427,7 +404,6 @@ async function proxy(urlObj, reqInit, rawLen) {
     resHdrNew.set('access-control-allow-origin', '*');
     resHdrNew.set('Cache-Control', 'max-age=1500');
 
-    // 删除不必要的头
     resHdrNew.delete('content-security-policy');
     resHdrNew.delete('content-security-policy-report-only');
     resHdrNew.delete('clear-site-data');
