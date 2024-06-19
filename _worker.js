@@ -114,7 +114,7 @@ async function helpPage() {
 				color: #333;
 				margin: 0;
 				padding: 20px;
-				background-image: url('https://qninq.cn/api/bingimg/'); /* Replace with your image path */
+				background-image: url('https://image.dooo.ng/c/2024/06/19/6672490bad599.webp'); /* Replace with your image path */
 				background-size: cover;
 				background-position: center;
 				background-repeat: no-repeat;
