@@ -39,6 +39,10 @@ sudo systemctl restart docker
 | URL | https://www.baidu.com/ |❌| 主页伪装(设为`nginx`则伪装为nginx默认页面) |
 | HOME | 你的域名 |❌|help页面进行加速地址替换|
 | URL | help |❌|将网页显示为帮助页面|
+| D1 |加速地址|❌| 替换帮助页面的加速地址 |
+| D2 |加速地址|❌| 替换帮助页面的加速地址 |
+| ~ |加速地址|❌| 替换帮助页面的加速地址 |
+| D5 |加速地址|❌| 替换帮助页面的加速地址 |
 
 # 第三方Docker官方镜像服务
 
