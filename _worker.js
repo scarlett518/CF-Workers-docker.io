@@ -18,13 +18,13 @@ function routeByHosts(host) {
         "k8s": "registry.k8s.io",
         "ghcr": "ghcr.io",
         "cloudsmith": "docker.cloudsmith.io",
-
+        
         // 测试环境
         "test": "registry-1.docker.io",
     };
 
-    if (host in routes) return [routes[host], false];
-    else return [hub_host, true];
+    if (host in routes) return [ routes[host], false ];
+    else return [ hub_host, true ];
 }
 
 /** @type {RequestInit} */
@@ -35,7 +35,7 @@ const PREFLIGHT_INIT = {
         'access-control-allow-methods': 'GET,POST,PUT,PATCH,TRACE,DELETE,HEAD,OPTIONS', // 允许的HTTP方法
         'access-control-max-age': '1728000', // 预检请求的缓存时间
     }),
-};
+}
 
 /**
  * 构造响应
@@ -44,8 +44,8 @@ const PREFLIGHT_INIT = {
  * @param {Object<string, string>} headers 响应头
  */
 function makeRes(body, status = 200, headers = {}) {
-    headers['access-control-allow-origin'] = '*'; // 允许所有来源
-    return new Response(body, { status, headers }); // 返回新构造的响应
+    headers['access-control-allow-origin'] = '*' // 允许所有来源
+    return new Response(body, { status, headers }) // 返回新构造的响应
 }
 
 /**
@@ -54,16 +54,16 @@ function makeRes(body, status = 200, headers = {}) {
  */
 function newUrl(urlStr) {
     try {
-        return new URL(urlStr); // 尝试构造新的URL对象
+        return new URL(urlStr) // 尝试构造新的URL对象
     } catch (err) {
-        return null; // 构造失败返回null
+        return null // 构造失败返回null
     }
 }
 
 function isUUID(uuid) {
     // 定义一个正则表达式来匹配 UUID 格式
     const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[4][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-
+    
     // 使用正则表达式测试 UUID 字符串
     return uuidRegex.test(uuid);
 }
@@ -86,12 +86,12 @@ async function nginx() {
     <h1>Welcome to nginx!</h1>
     <p>If you see this page, the nginx web server is successfully installed and
     working. Further configuration is required.</p>
-
+    
     <p>For online documentation and support please refer to
     <a href="http://nginx.org/">nginx.org</a>.<br/>
     Commercial support is available at
     <a href="http://nginx.com/">nginx.com</a>.</p>
-
+    
     <p><em>Thank you for using nginx.</em></p>
     </body>
     </html>
@@ -99,8 +99,16 @@ async function nginx() {
     return text;
 }
 
-async function helpPage() {
-    const text = `
+async function generateHelpHTML(env) {
+    const D1 = env.D1 || 'default-d1';
+    const D2 = env.D2 || 'default-d2';
+    const D3 = env.D3 || 'default-d3';
+    const D4 = env.D4 || 'default-d4';
+    const D5 = env.D5 || 'default-d5';
+
+    const workersHost = `${D1}, ${D2}, ${D3}, ${D4}, ${D5}`;
+
+    return `
     <!DOCTYPE html>
     <html lang="zh-CN">
     <head>
@@ -184,21 +192,27 @@ async function helpPage() {
             <center><h4>个人自建，请勿随意分享，导致资源滥用无法使用</h4></center>
             <h3>为了加速镜像拉取，你可以使用以下命令设置 registry mirror:</h3>
             <pre><code>
-    sudo mkdir -p /etc/docker
-    sudo tee /etc/docker/daemon.json &lt;&lt;-'EOF'
-    {
-      "registry-mirrors": ["https://{{WORKERS_HOST}}"]
-    }
-    EOF
-    sudo systemctl daemon-reload
-    sudo systemctl restart docker</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
+sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": [
+    "https://${D1}",
+    "https://${D2}",
+    "https://${D3}",
+    "https://${D4}",
+    "https://${D5}"
+  ]
+}
+EOF
+sudo systemctl daemon-reload
+sudo systemctl restart docker</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
             <h3>用法:</h3>
             <p>原拉取镜像命令</p>
             <pre><code>
-    docker pull library/alpine:latest</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
+docker pull library/alpine:latest</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
             <h3>加速拉取镜像命令</h3>
             <pre><code>
-    docker pull {{WORKERS_HOST}}/library/alpine:latest</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
+docker pull ${D1}/library/alpine:latest</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
         </div>
         <script>
             function copyCode(button) {
@@ -218,7 +232,6 @@ async function helpPage() {
     </body>
     </html>
     `;
-    return text.replace(/{{WORKERS_HOST}}/g, workers_url);
 }
 
 export default {
@@ -226,16 +239,16 @@ export default {
         const getReqHeader = (key) => request.headers.get(key); // 获取请求头
 
         let url = new URL(request.url); // 解析请求URL
-        workers_url = env.HOME || `https://${url.hostname}`; // 使用环境变量 HOME 或者默认值
+        workers_url = `https://${url.hostname}`;
         const pathname = url.pathname;
-        const hostname = url.searchParams.get('hubhost') || url.hostname;
-        const hostTop = hostname.split('.')[0]; // 获取主机名的第一部分
+        const hostname = url.searchParams.get('hubhost') || url.hostname; 
+        const hostTop = hostname.split('.')[0];// 获取主机名的第一部分
         const checkHost = routeByHosts(hostTop);
         hub_host = checkHost[0]; // 获取上游地址
         const fakePage = checkHost[1];
         console.log(`域名头部: ${hostTop}\n反代地址: ${hub_host}\n伪装首页: ${fakePage}`);
         const isUuid = isUUID(pathname.split('/')[1].split('/')[0]);
-
+        
         const conditions = [
             isUuid,
             pathname.includes('/_'),
@@ -253,10 +266,10 @@ export default {
         ];
 
         if (conditions.some(condition => condition) && (fakePage === true || hostTop == 'docker')) {
-            if (env.URL302) {
+            if (env.URL302){
                 return Response.redirect(env.URL302, 302);
-            } else if (env.URL) {
-                if (env.URL.toLowerCase() == 'nginx') {
+            } else if (env.URL){
+                if (env.URL.toLowerCase() == 'nginx'){
                     //首页改成一个nginx伪装页
                     return new Response(await nginx(), {
                         headers: {
@@ -264,15 +277,17 @@ export default {
                         },
                     });
                 } else if (env.URL.toLowerCase() == 'help') {
-                    //首页改成帮助页面
-                    return new Response(await helpPage(), {
+                    // 返回帮助页
+                    return new Response(await generateHelpHTML(env), {
                         headers: {
                             'Content-Type': 'text/html; charset=UTF-8',
                         },
                     });
-                } else return fetch(new Request(env.URL, request));
+                } else {
+                    return fetch(new Request(env.URL, request));
+                }
             }
-
+            
             const newUrl = new URL("https://registry.hub.docker.com" + pathname + url.search);
 
             // 复制原始请求的标头
@@ -312,10 +327,6 @@ export default {
                 }
             };
             let token_url = auth_url + url.pathname + url.search;
-
-            // 日志输出 token 请求的 URL
-            console.log(`Token URL: ${token_url}`);
-
             return fetch(new Request(token_url, request), token_parameter);
         }
 
@@ -401,11 +412,6 @@ function httpHandler(req, pathname) {
 
     const urlObj = newUrl(urlStr);
 
-    // 确保 URL 包含协议部分
-    if (!urlObj.protocol) {
-        urlObj.protocol = 'https:'; // 或者 'http:' 根据需要
-    }
-
     /** @type {RequestInit} */
     const reqInit = {
         method: req.method,
@@ -416,6 +422,12 @@ function httpHandler(req, pathname) {
     return proxy(urlObj, reqInit, rawLen);
 }
 
+/**
+ * 代理请求
+ * @param {URL} urlObj URL对象
+ * @param {RequestInit} reqInit 请求初始化对象
+ * @param {string} rawLen 原始长度
+ */
 async function proxy(urlObj, reqInit, rawLen) {
     const res = await fetch(urlObj.href, reqInit);
     const resHdrOld = res.headers;
