@@ -196,12 +196,12 @@ sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json <<-'EOF'
 {
   "registry-mirrors": [
-    "https://${D1}",
-    "https://${D2}",
-    "https://${D3}",
-    "https://${D4}",
-    "https://${D5}"
-  ]
+                        "https://${D1}",
+                        "https://${D2}",
+                        "https://${D3}",
+                        "https://${D4}",
+                        "https://${D5}"
+                      ]
 }
 EOF
 sudo systemctl daemon-reload
