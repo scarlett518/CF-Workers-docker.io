@@ -195,9 +195,6 @@ async function generateHelpHTML(env) {
         .contact a:hover {
             text-decoration: underline;
         }
-        .contact p {
-            color: #007aff;
-        }
     </style>
 </head>
 <body>
@@ -228,7 +225,9 @@ docker pull library/alpine:latest</code><button class="copy-button" onclick="cop
         <pre><code>
 docker pull ${D1}/library/alpine:latest</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
         <div class="contact">
-            <p>联系方式: <a href="https://t.me/lucky233bot" target="_blank">点击这里</a></p>
+            <a href="https://t.me/lucky233bot" target="_blank">
+                <img src="https://img.shields.io/badge/联系方式-Telegram-blue" alt="Telegram">
+            </a>
         </div>
     </div>
     <script>
@@ -248,6 +247,7 @@ docker pull ${D1}/library/alpine:latest</code><button class="copy-button" onclic
     </script>
 </body>
 </html>
+
 
 
     `;
