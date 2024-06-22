@@ -227,9 +227,9 @@ docker pull library/alpine:latest</code><button class="copy-button" onclick="cop
         <h3>加速拉取镜像命令</h3>
         <pre><code>
 docker pull ${D1}/library/alpine:latest</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
-    </div>
-    <div class="contact">
-        <p>联系方式: <a href="https://t.me/lucky233bot" target="_blank">点击这里</a></p>
+        <div class="contact">
+            <p>联系方式: <a href="https://t.me/lucky233bot" target="_blank">点击这里</a></p>
+        </div>
     </div>
     <script>
         function copyCode(button) {
@@ -248,6 +248,7 @@ docker pull ${D1}/library/alpine:latest</code><button class="copy-button" onclic
     </script>
 </body>
 </html>
+
 
     `;
 }
