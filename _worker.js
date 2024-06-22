@@ -105,8 +105,9 @@ async function generateHelpHTML(env) {
     const D3 = env.D3 || 'default-d3';
     const D4 = env.D4 || 'default-d4';
     const D5 = env.D5 || 'default-d5';
+    const PM = env.PM || 'default-pm';
 
-    const workersHost = `${D1}, ${D2}, ${D3}, ${D4}, ${D5}`;
+    const workersHost = `${D1}, ${D2}, ${D3}, ${D4}, ${D5}, ${PM}`;
 
     return `
     <!DOCTYPE html>
@@ -225,7 +226,7 @@ docker pull library/alpine:latest</code><button class="copy-button" onclick="cop
         <pre><code>
 docker pull ${D1}/library/alpine:latest</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
         <div class="contact">
-            <a href="https://t.me/lucky233bot" target="_blank">
+            <a href="${PM}" target="_blank">
                 <img src="https://img.shields.io/badge/联系方式-Telegram-blue" alt="Telegram">
             </a>
         </div>
