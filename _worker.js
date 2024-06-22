@@ -110,88 +110,102 @@ async function generateHelpHTML(env) {
 
     return `
     <!DOCTYPE html>
-    <html lang="zh-CN">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>镜像加速说明</title>
-        <style>
-            body {
-                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-                line-height: 1.6;
-                color: #333;
-                margin: 0;
-                padding: 20px;
-                background-image: url('https://image.dooo.ng/c/2024/06/19/6672490bad599.webp'); /* Replace with your image path */
-                background-size: cover;
-                background-position: center;
-                background-repeat: no-repeat;
-                background-attachment: fixed;
-            }
-            .container {
-                max-width: 800px;
-                margin: 0 auto;
-                padding: 20px;
-                background: rgba(255, 255, 255, 0.8);
-                border-radius: 8px;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            }
-            h1 {
-                font-size: 2em;
-                margin-bottom: 0.5em;
-                color: #007aff;
-            }
-            p {
-                margin-bottom: 1em;
-            }
-            pre {
-                background: #2d2d2d;
-                color: #f8f8f2;
-                padding: 20px;
-                border-radius: 8px;
-                overflow-x: auto;
-                position: relative;
-            }
-            pre::before {
-                content: " ";
-                display: block;
-                position: absolute;
-                top: 10px;
-                left: 10px;
-                width: 12px;
-                height: 12px;
-                background: #ff5f56;
-                border-radius: 50%;
-                box-shadow: 20px 0 0 #ffbd2e, 40px 0 0 #27c93f;
-            }
-            code {
-                font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
-                font-size: 0.875em;
-            }
-            .copy-button {
-                position: absolute;
-                top: 10px;
-                right: 10px;
-                background: #007aff;
-                color: white;
-                border: none;
-                padding: 5px 10px;
-                border-radius: 5px;
-                cursor: pointer;
-                opacity: 0;
-                transition: opacity 0.3s;
-            }
-            pre:hover .copy-button {
-                opacity: 1;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <center><h1>镜像加速说明</h1></center>
-            <center><h4>个人自建+整理，请勿随意分享，导致资源滥用无法使用</h4></center>
-            <h3>为了加速镜像拉取，你可以使用以下命令设置 registry mirror:</h3>
-            <pre><code>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>镜像加速说明</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            background-image: url('https://image.dooo.ng/c/2024/06/19/6672490bad599.webp'); /* Replace with your image path */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 0.5em;
+            color: #007aff;
+        }
+        p {
+            margin-bottom: 1em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            position: relative;
+        }
+        pre::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 12px;
+            height: 12px;
+            background: #ff5f56;
+            border-radius: 50%;
+            box-shadow: 20px 0 0 #ffbd2e, 40px 0 0 #27c93f;
+        }
+        code {
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+            font-size: 0.875em;
+        }
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #007aff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        pre:hover .copy-button {
+            opacity: 1;
+        }
+        .contact {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .contact a {
+            color: #007aff;
+            text-decoration: none;
+        }
+        .contact a:hover {
+            text-decoration: underline;
+        }
+        .contact p {
+            color: #007aff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <center><h1>镜像加速说明</h1></center>
+        <center><h4>个人自建+整理，请勿随意分享，导致资源滥用无法使用</h4></center>
+        <h3>为了加速镜像拉取，你可以使用以下命令设置 registry mirror:</h3>
+        <pre><code>
 sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json <<-'EOF'
 {
@@ -206,31 +220,35 @@ sudo tee /etc/docker/daemon.json <<-'EOF'
 EOF
 sudo systemctl daemon-reload
 sudo systemctl restart docker</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
-            <h3>用法:</h3>
-            <p>原拉取镜像命令</p>
-            <pre><code>
+        <h3>用法:</h3>
+        <p>原拉取镜像命令</p>
+        <pre><code>
 docker pull library/alpine:latest</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
-            <h3>加速拉取镜像命令</h3>
-            <pre><code>
+        <h3>加速拉取镜像命令</h3>
+        <pre><code>
 docker pull ${D1}/library/alpine:latest</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
-        </div>
-        <script>
-            function copyCode(button) {
-                const code = button.previousSibling;
-                const textArea = document.createElement('textarea');
-                textArea.value = code.textContent;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                button.textContent = '已复制';
-                setTimeout(() => {
-                    button.textContent = '复制代码';
-                }, 2000);
-            }
-        </script>
-    </body>
-    </html>
+    </div>
+    <div class="contact">
+        <p>联系方式: <a href="https://t.me/lucky233bot" target="_blank">点击这里</a></p>
+    </div>
+    <script>
+        function copyCode(button) {
+            const code = button.previousSibling;
+            const textArea = document.createElement('textarea');
+            textArea.value = code.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            button.textContent = '已复制';
+            setTimeout(() => {
+                button.textContent = '复制代码';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
+
     `;
 }
 
