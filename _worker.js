@@ -103,11 +103,9 @@ async function generateHelpHTML(env) {
     const D1 = env.D1 || 'default-d1';
     const D2 = env.D2 || 'default-d2';
     const D3 = env.D3 || 'default-d3';
-    const D4 = env.D4 || 'default-d4';
-    const D5 = env.D5 || 'default-d5';
     const PM = env.PM || 'default-pm';
 
-    const workersHost = `${D1}, ${D2}, ${D3}, ${D4}, ${D5}, ${PM}`;
+    const workersHost = `${D1}, ${D2}, ${D3}, ${PM}`;
 
     return `
     <!DOCTYPE html>
@@ -210,9 +208,7 @@ sudo tee /etc/docker/daemon.json <<-'EOF'
   "registry-mirrors": [
                         "https://${D1}",
                         "https://${D2}",
-                        "https://${D3}",
-                        "https://${D4}",
-                        "https://${D5}"
+                        "https://${D3}"
                       ]
 }
 EOF
