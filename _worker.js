@@ -202,7 +202,6 @@ async function generateHelpHTML(env) {
         <center><h4>个人自建+整理，请勿随意分享，导致资源滥用无法使用</h4></center>
         <h3>为了加速镜像拉取，你可以使用以下命令设置 registry mirror:</h3>
         <pre><code>
-sudo mkdir -p /etc/docker
 sudo tee /etc/docker/daemon.json <<-'EOF'
 {
   "registry-mirrors": [
