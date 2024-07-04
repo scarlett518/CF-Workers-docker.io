@@ -212,7 +212,8 @@ sudo tee /etc/docker/daemon.json <<-'EOF'
 }
 EOF
 sudo systemctl daemon-reload
-sudo systemctl restart docker</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
+sudo systemctl restart docker
+                            </code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
         <h3>用法:</h3>
         <p>原拉取镜像命令</p>
         <pre><code>
