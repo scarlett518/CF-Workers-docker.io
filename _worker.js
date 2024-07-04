@@ -211,9 +211,7 @@ sudo tee /etc/docker/daemon.json <<-'EOF'
                         "https://${D3}"
                       ]
 }
-EOF
-sudo systemctl daemon-reload
-sudo systemctl restart docker</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
+EOF</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
         <h3>重载systemd管理守护进程配置文件</h3>
         <pre><code>sudo systemctl daemon-reload</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
         <h3>重启 Docker 服务</h3>
