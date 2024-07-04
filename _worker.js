@@ -114,7 +114,6 @@ async function generateHelpHTML(env) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>镜像加速说明</title>
-          <h2>使用方法①</h2>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -201,6 +200,7 @@ async function generateHelpHTML(env) {
     <div class="container">
         <center><h1>镜像加速说明</h1></center>
         <center><h4>个人自建+整理，请勿随意分享，导致资源滥用无法使用</h4></center>
+        <center><h2>使用方法①</h2></center>
         <h3>为了加速镜像拉取，你可以使用以下命令设置 registry mirror:</h3>
         <pre><code>
 sudo tee /etc/docker/daemon.json <<-'EOF'
@@ -218,7 +218,8 @@ sudo systemctl restart docker</code><button class="copy-button" onclick="copyCod
         <pre><code>sudo systemctl daemon-reload</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
         <h3>重启 Docker 服务</h3>
         <pre><code>sudo systemctl restart docker</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
-        <h3>或选择直接拉取:</h3>
+        <center><h2>使用方法②</h2></center>
+        <h3>直接拉取:</h3>
         <p>原拉取镜像命令</p>
         <pre><code>
 docker pull library/alpine:latest</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
