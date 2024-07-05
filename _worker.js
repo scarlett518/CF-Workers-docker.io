@@ -113,6 +113,8 @@ async function generateHelpHTML(env) {
     <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+	</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>镜像加速说明</title>
@@ -185,22 +187,53 @@ async function generateHelpHTML(env) {
         pre:hover .copy-button {
             opacity: 1;
         }
-        .contact {
-            text-align: center;
-            margin-top: 20px;
+        .github-badge {
+            display: inline-block;
+            border-radius: 4px;
+            text-shadow: none;
+            font-size: 12px;
+            color: #fff;
+            line-height: 15px;
+            background-color: #abbac3;
+            margin-bottom: 2px;
         }
-        .contact a {
-            color: #007aff;
-            text-decoration: none;
+        .github-badge .badge-subject {
+            display: inline-block;
+            background-color: #4d4d4d;
+            padding: 4px 4px 4px 6px;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
         }
-        .contact a:hover {
-            text-decoration: underline;
+        .github-badge .badge-value {
+            display: inline-block;
+            padding: 4px 6px 4px 4px;
+            border-top-right-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+        .github-badge .bg-blue {
+            background-color: #007ec6;
+        }
+        .github-badge .bg-orange {
+            background-color: #ffa500;
+        }
+        .github-badge .bg-green {
+            background-color: #3bca6e;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <center><h1>镜像加速说明</h1></center>
+        <center>
+            <div class="github-badge">
+                <span class="badge-subject">PV</span>
+                <span class="badge-value bg-blue" id="busuanzi_value_site_pv"></span>
+            </div> |
+            <div class="github-badge">
+                <span class="badge-subject">UV</span>
+                <span class="badge-value bg-green" id="busuanzi_value_site_uv"></span>
+            </div>
+        </center>
         <center><h4>个人自建+整理，请勿随意分享，导致资源滥用无法使用</h4></center>
         <center><h2>使用方法①</h2></center>
         <h3>为了加速镜像拉取，你可以使用以下命令设置 registry mirror:</h3>
@@ -228,11 +261,26 @@ docker pull library/alpine:latest</code><button class="copy-button" onclick="cop
         <h3>加速拉取镜像命令</h3>
         <pre><code>
 docker pull ${D1}/library/alpine:latest</code><button class="copy-button" onclick="copyCode(this)">复制代码</button></pre>
-        <div class="contact">
-            <a href="${PM}" target="_blank">
-                <img src="https://img.shields.io/badge/联系方式-Telegram-blue" alt="Telegram">
-            </a>
-        </div>
+        <center>
+            <div class="github-badge">
+                <span class="badge-subject">Copyright</span>
+                <a href="https://imotao.com/" target="_self">
+                    <span class="badge-value bg-green">©2024</span>
+                </a>
+            </div> |
+            <div class="github-badge">
+                <span class="badge-subject">Powerd By</span>
+                <a href="https://www.cloudflare.com/zh-cn/" target="_blank">
+                    <span class="badge-value bg-orange">cloudfare</span>
+                </a>
+            </div> |
+            <div class="github-badge">
+                <span class="badge-subject">联系方式</span>
+                <a href="${PM}" target="_self">
+                    <span class="badge-value bg-blue">Telegram</span>
+                </a>
+            </div>
+        </center>
     </div>
     <script>
         function copyCode(button) {
@@ -251,7 +299,6 @@ docker pull ${D1}/library/alpine:latest</code><button class="copy-button" onclic
     </script>
 </body>
 </html>
-
 
 
     `;
