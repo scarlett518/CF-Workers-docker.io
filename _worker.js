@@ -113,7 +113,7 @@ async function generateHelpHTML(env) {
     <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-	<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+	<script defer src="https://busuanzi.9420.ltd/js"></script>
 	</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -227,11 +227,11 @@ async function generateHelpHTML(env) {
         <center>
             <div class="github-badge">
                 <span class="badge-subject">PV</span>
-                <span class="badge-value bg-blue" id="busuanzi_value_site_pv"></span>
+                <span class="badge-value bg-blue" id="busuanzi_site_pv"></span>
             </div> |
             <div class="github-badge">
                 <span class="badge-subject">UV</span>
-                <span class="badge-value bg-green" id="busuanzi_value_site_uv"></span>
+                <span class="badge-value bg-green" id="busuanzi_site_uv"></span>
             </div>
         </center>
         <center><h4>个人自建+整理，请勿随意分享，导致资源滥用无法使用</h4></center>
